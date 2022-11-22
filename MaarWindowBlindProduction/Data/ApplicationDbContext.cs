@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using MaarWindowBlindProduction.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MaarWindowBlindProduction.Data
@@ -9,5 +10,7 @@ namespace MaarWindowBlindProduction.Data
             : base(options)
         {
         }
+        public DbSet<PatternName> Patterns { get; set; }
+
     }
 }
