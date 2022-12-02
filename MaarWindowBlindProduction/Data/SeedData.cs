@@ -9,11 +9,11 @@ namespace MaarWindowBlindProduction.Data
         {
             using (var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
-                if (context.Patterns.Any())
+                if (context.Pattern.Any())
                 {
                     return;
                 }
-                context.Patterns.AddRange(
+                context.Pattern.AddRange(
                     new PatternName { Pattern = "Polka dots" },
                     new PatternName { Pattern = "Moroccan" },
                     new PatternName { Pattern = "Quatrefoil" },

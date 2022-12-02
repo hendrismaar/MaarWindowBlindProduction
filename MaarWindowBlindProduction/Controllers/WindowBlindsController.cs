@@ -139,6 +139,7 @@ namespace MaarWindowBlindProduction.Controllers
             return View();
         }
 
+
         // POST: WindowBlinds/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -156,6 +157,13 @@ namespace MaarWindowBlindProduction.Controllers
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        // GET: WindowBlinds/OrderState
+        public async Task<IActionResult> OrderState(int? id)
+        {
+            var windowBlind = await _context.WindowBlind.FindAsync(id);
+            return View(windowBlind);
         }
 
         private bool WindowBlindExists(int id)
