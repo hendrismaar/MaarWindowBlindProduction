@@ -134,12 +134,6 @@ namespace MaarWindowBlindProduction.Controllers
             return View(windowBlind);
         }
 
-        public IActionResult PlaceOrder()
-        {
-            return View();
-        }
-
-
         // POST: WindowBlinds/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -159,10 +153,30 @@ namespace MaarWindowBlindProduction.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: WindowBlinds/OrderState
-        public async Task<IActionResult> OrderState(int? id)
+
+        public async Task<IActionResult> PlaceOrder()
         {
-            var windowBlind = await _context.WindowBlind.FindAsync(id);
+            var model = new WindowBlind();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PlaceOrder([Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlind windowBlind)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(windowBlind);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(windowBlind);
+        }
+
+        // GET: WindowBlinds/OrderState
+        public async Task<IActionResult> OrderState()
+        {
+            var windowBlind = _context.WindowBlind.ToList();
             return View(windowBlind);
         }
 

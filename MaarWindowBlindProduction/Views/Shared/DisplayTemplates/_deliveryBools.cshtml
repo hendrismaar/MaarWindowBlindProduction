@@ -1,0 +1,10 @@
+﻿@model bool
+
+@if (Model == false)
+{
+    @Html.Encode("Not delivered yet")
+}
+else
+{
+    @Html.Encode("Has been delivered")
+}

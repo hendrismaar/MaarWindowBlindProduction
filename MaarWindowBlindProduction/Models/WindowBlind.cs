@@ -1,4 +1,6 @@
-﻿namespace MaarWindowBlindProduction.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MaarWindowBlindProduction.Models
 {
     public class WindowBlind
     {
@@ -8,9 +10,13 @@
         public string LastName { get; set; }
         public string Address { get; set; }
         public int PatternNumber { get; set; } = 0;
+        [UIHint("_manufacturingBools")]
         public bool ClothReady { get; set; }
+        [UIHint("_manufacturingBools")]
         public bool FrameReady { get; set; }
+        [UIHint("_packagingBools")]
         public bool ProductPackaged { get; set; }
+        [UIHint("_deliveryBools")]
         public bool DeliveryStatus { get; set; } 
     }
 }
