@@ -1,0 +1,73 @@
+﻿@model IEnumerable<MaarWindowBlindProduction.Models.WindowBlind>
+
+@{
+    ViewData["Title"] = "WorkerList";
+}
+
+<h1>WorkerList</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PatternNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClothReady)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FrameReady)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductPackaged)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeliveryStatus)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PatternNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClothReady)
+                <a asp-action="ClothierEdit" asp-route-id="@item.Id">Edit</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FrameReady)
+                <a asp-action="ManufacturerEdit" asp-route-id="@item.Id">Edit</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductPackaged)
+                <a asp-action="PackagerEdit" asp-route-id="@item.Id">Edit</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeliveryStatus)
+                <a asp-action="DelivererEdit" asp-route-id="@item.Id">Edit</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

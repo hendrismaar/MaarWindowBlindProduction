@@ -168,7 +168,7 @@ namespace MaarWindowBlindProduction.Controllers
             {
                 _context.Add(windowBlind);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(OrderState));
             }
             return View(windowBlind);
         }
@@ -179,6 +179,61 @@ namespace MaarWindowBlindProduction.Controllers
             var windowBlind = _context.WindowBlind.ToList();
             return View(windowBlind);
         }
+
+        public async Task<IActionResult> WorkerList()
+        {
+            var windowBlind = _context.WindowBlind.ToList();
+            return View(windowBlind);
+        }
+
+        // GET: WindowBlinds/ClothierEdit
+        public async Task<IActionResult> ClothierEdit(int? id)
+        {
+            if (id == null || _context.WindowBlind == null)
+            {
+                return NotFound();
+            }
+
+            var windowBlind = await _context.WindowBlind.FindAsync(id);
+            if (windowBlind == null)
+            {
+                return NotFound();
+            }
+            return View(windowBlind);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ClothierEdit(int id, [Bind("Id, ClothReady")] WindowBlind windowBlind)
+        {
+            if (id != windowBlind.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(windowBlind);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!WindowBlindExists(windowBlind.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(windowBlind);
+        }
+
+
 
         private bool WindowBlindExists(int id)
         {

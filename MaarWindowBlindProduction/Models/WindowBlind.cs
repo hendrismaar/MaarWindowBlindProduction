@@ -10,13 +10,13 @@ namespace MaarWindowBlindProduction.Models
         public string LastName { get; set; }
         public string Address { get; set; }
         public int PatternNumber { get; set; } = 0;
-        [UIHint("_manufacturingBools")]
+        [UIHint("_ManufacturingBools")]
         public bool ClothReady { get; set; }
-        [UIHint("_manufacturingBools")]
+        [UIHint("_ManufacturingBools")]
         public bool FrameReady { get; set; }
-        [UIHint("_packagingBools")]
+        [UIHint("_PackagingBools")]
         public bool ProductPackaged { get; set; }
-        [UIHint("_deliveryBools")]
+        [UIHint("_DeliveryBools")]
         public bool DeliveryStatus { get; set; } 
     }
 }
