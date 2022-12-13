@@ -36,7 +36,7 @@ namespace MaarWindowBlindProduction.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Patterns");
+                    b.ToTable("Patterns", (string)null);
                 });
 
             modelBuilder.Entity("MaarWindowBlindProduction.Models.WindowBlind", b =>
@@ -76,7 +76,7 @@ namespace MaarWindowBlindProduction.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WindowBlind");
+                    b.ToTable("WindowBlind", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

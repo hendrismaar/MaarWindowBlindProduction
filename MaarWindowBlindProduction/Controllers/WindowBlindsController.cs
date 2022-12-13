@@ -203,7 +203,7 @@ namespace MaarWindowBlindProduction.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ClothierEdit(int id, [Bind("Id, ClothReady")] WindowBlind windowBlind)
+        public async Task<IActionResult> ClothierEdit(int id, [Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlind windowBlind)
         {
             if (id != windowBlind.Id)
             {
