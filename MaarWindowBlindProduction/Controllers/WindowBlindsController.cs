@@ -228,7 +228,148 @@ namespace MaarWindowBlindProduction.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(WorkerList));
+            }
+            return View(windowBlind);
+        }
+
+        // GET: WindowBlinds/ManufacturerEdit
+        public async Task<IActionResult> ManufacturerEdit(int? id)
+        {
+            if (id == null || _context.WindowBlind == null)
+            {
+                return NotFound();
+            }
+
+            var windowBlind = await _context.WindowBlind.FindAsync(id);
+            if (windowBlind == null)
+            {
+                return NotFound();
+            }
+            return View(windowBlind);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ManufacturerEdit(int id, [Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlind windowBlind)
+        {
+            if (id != windowBlind.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(windowBlind);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!WindowBlindExists(windowBlind.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(WorkerList));
+            }
+            return View(windowBlind);
+        }
+
+        // GET: WindowBlinds/PackagerEdit
+        public async Task<IActionResult> PackagerEdit(int? id)
+        {
+            if (id == null || _context.WindowBlind == null)
+            {
+                return NotFound();
+            }
+
+            var windowBlind = await _context.WindowBlind.FindAsync(id);
+            if (windowBlind == null)
+            {
+                return NotFound();
+            }
+            return View(windowBlind);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PackagerEdit(int id, [Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlind windowBlind)
+        {
+            if (id != windowBlind.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(windowBlind);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!WindowBlindExists(windowBlind.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(WorkerList));
+            }
+            return View(windowBlind);
+        }
+
+        // GET: WindowBlinds/DelivererEdit
+        public async Task<IActionResult> DelivererEdit(int? id)
+        {
+            if (id == null || _context.WindowBlind == null)
+            {
+                return NotFound();
+            }
+
+            var windowBlind = await _context.WindowBlind.FindAsync(id);
+            if (windowBlind == null)
+            {
+                return NotFound();
+            }
+            return View(windowBlind);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DelivererEdit(int id, [Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlind windowBlind)
+        {
+            if (id != windowBlind.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(windowBlind);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!WindowBlindExists(windowBlind.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(WorkerList));
             }
             return View(windowBlind);
         }
