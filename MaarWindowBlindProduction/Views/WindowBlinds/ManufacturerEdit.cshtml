@@ -13,38 +13,14 @@
         <form asp-action="ManufacturerEdit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <input asp-for="FirstName" class="form-control" />
-            </div>
-            <div class="form-group">
-                <input asp-for="LastName" class="form-control" />
-            </div>
-            <div class="form-group">
-                <input asp-for="Address" class="form-control" />
-            </div>
-            <div class="form-group">
-                <input asp-for="PatternNumber" class="form-control" />
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="ClothReady" /> @Html.DisplayNameFor(model => model.ClothReady)
-                </label>
-            </div>
+            <input class="form-check-input" asp-for="ClothReady" type="hidden" disabled />
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="FrameReady" /> @Html.DisplayNameFor(model => model.FrameReady)
                 </label>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="ProductPackaged" /> @Html.DisplayNameFor(model => model.ProductPackaged)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="DeliveryStatus" /> @Html.DisplayNameFor(model => model.DeliveryStatus)
-                </label>
-            </div>
+            <input class="form-check-input" asp-for="ProductPackaged" type="hidden" disabled/> 
+            <input class="form-check-input" asp-for="DeliveryStatus" type="hidden" disabled /> 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

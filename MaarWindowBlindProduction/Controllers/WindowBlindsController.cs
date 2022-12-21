@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MaarWindowBlindProduction.Data;
 using MaarWindowBlindProduction.Models;
+using MaarWindowBlindProduction.Models.ViewModels;
 
 namespace MaarWindowBlindProduction.Controllers
 {
@@ -182,8 +183,8 @@ namespace MaarWindowBlindProduction.Controllers
 
         public async Task<IActionResult> WorkerList()
         {
-            var windowBlind = _context.WindowBlind.ToList();
-            return View(windowBlind);
+            var windowBlind = _context.WindowBlind.Where(e => e.DeliveryStatus != true);
+            return View(await windowBlind.ToListAsync());
         }
 
         // GET: WindowBlinds/ClothierEdit
@@ -203,7 +204,7 @@ namespace MaarWindowBlindProduction.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ClothierEdit(int id, [Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlind windowBlind)
+        public async Task<IActionResult> ClothierEdit(int id, [Bind("Id,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlindViewModel windowBlind)
         {
             if (id != windowBlind.Id)
             {
@@ -214,7 +215,9 @@ namespace MaarWindowBlindProduction.Controllers
             {
                 try
                 {
-                    _context.Update(windowBlind);
+                    var currentData = await _context.WindowBlind.FindAsync(id);
+                    currentData.ClothReady = windowBlind.ClothReady;
+                    _context.Entry(currentData).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -250,7 +253,7 @@ namespace MaarWindowBlindProduction.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ManufacturerEdit(int id, [Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlind windowBlind)
+        public async Task<IActionResult> ManufacturerEdit(int id, [Bind("Id,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlindViewModel windowBlind)
         {
             if (id != windowBlind.Id)
             {
@@ -261,7 +264,9 @@ namespace MaarWindowBlindProduction.Controllers
             {
                 try
                 {
-                    _context.Update(windowBlind);
+                    var currentData = await _context.WindowBlind.FindAsync(id);
+                    currentData.FrameReady = windowBlind.FrameReady;
+                    _context.Entry(currentData).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -297,7 +302,7 @@ namespace MaarWindowBlindProduction.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PackagerEdit(int id, [Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlind windowBlind)
+        public async Task<IActionResult> PackagerEdit(int id, [Bind("Id,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlindViewModel windowBlind)
         {
             if (id != windowBlind.Id)
             {
@@ -308,7 +313,9 @@ namespace MaarWindowBlindProduction.Controllers
             {
                 try
                 {
-                    _context.Update(windowBlind);
+                    var currentData = await _context.WindowBlind.FindAsync(id);
+                    currentData.ProductPackaged = windowBlind.ProductPackaged;
+                    _context.Entry(currentData).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -344,7 +351,7 @@ namespace MaarWindowBlindProduction.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DelivererEdit(int id, [Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlind windowBlind)
+        public async Task<IActionResult> DelivererEdit(int id, [Bind("Id,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlindViewModel windowBlind)
         {
             if (id != windowBlind.Id)
             {
@@ -355,7 +362,9 @@ namespace MaarWindowBlindProduction.Controllers
             {
                 try
                 {
-                    _context.Update(windowBlind);
+                    var currentData = await _context.WindowBlind.FindAsync(id);
+                    currentData.DeliveryStatus = windowBlind.DeliveryStatus;
+                    _context.Entry(currentData).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -373,8 +382,6 @@ namespace MaarWindowBlindProduction.Controllers
             }
             return View(windowBlind);
         }
-
-
 
         private bool WindowBlindExists(int id)
         {

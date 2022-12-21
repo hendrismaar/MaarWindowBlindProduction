@@ -13,11 +13,14 @@
         <form asp-action="PackagerEdit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" class="form-check-input" asp-for="ClothReady" disabled />
+            <input type="hidden" class="form-check-input" asp-for="FrameReady" disabled />
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="ProductPackaged" /> @Html.DisplayNameFor(model => model.ProductPackaged)
                 </label>
             </div>
+            <input type="hidden" class="form-check-input" asp-for="DeliveryStatus" disabled />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
