@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MaarWindowBlindProduction.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace MaarWindowBlindProduction.Data
 {
@@ -39,6 +40,37 @@ namespace MaarWindowBlindProduction.Data
                     new PatternName { Pattern = "Plaid" },
                     new PatternName { Pattern = "Grunge" });
                 context.SaveChanges();
+            }
+        }
+
+        public static async Task InitializeRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            // Check if the roles already exist
+            if (!await roleManager.RoleExistsAsync("Admin"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+
+            if (!await roleManager.RoleExistsAsync("Manufacturer"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Manufacturer"));
+            }
+
+            if (!await roleManager.RoleExistsAsync("Clothier"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Clothier"));
+            }
+
+            if (!await roleManager.RoleExistsAsync("Packager"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Packager"));
+            }
+
+            if (!await roleManager.RoleExistsAsync("Deliverer"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Deliverer"));
             }
         }
     }

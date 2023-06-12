@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using MaarWindowBlindProduction.Data;
 using MaarWindowBlindProduction.Models;
 using MaarWindowBlindProduction.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MaarWindowBlindProduction.Controllers
 {
@@ -25,7 +26,7 @@ namespace MaarWindowBlindProduction.Controllers
         {
               return View(await _context.WindowBlind.ToListAsync());
         }
-
+        [Authorize(Policy = "AdminOnlyPolicy")]
         // GET: WindowBlinds/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -44,6 +45,7 @@ namespace MaarWindowBlindProduction.Controllers
             return View(windowBlind);
         }
 
+        [Authorize(Policy = "AdminOnlyPolicy")]
         // GET: WindowBlinds/Create
         public IActionResult Create()
         {
@@ -66,6 +68,7 @@ namespace MaarWindowBlindProduction.Controllers
             return View(windowBlind);
         }
 
+        [Authorize(Policy = "AdminOnlyPolicy")]
         // GET: WindowBlinds/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -118,6 +121,7 @@ namespace MaarWindowBlindProduction.Controllers
         }
 
         // GET: WindowBlinds/Delete/5
+        [Authorize(Policy = "AdminOnlyPolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.WindowBlind == null)
@@ -181,13 +185,16 @@ namespace MaarWindowBlindProduction.Controllers
             return View(windowBlind);
         }
 
+        [Authorize(Policy = "AllRolesPolicy")]
         public async Task<IActionResult> WorkerList()
         {
             var windowBlind = _context.WindowBlind.Where(e => e.DeliveryStatus != true);
             return View(await windowBlind.ToListAsync());
         }
 
+
         // GET: WindowBlinds/ClothierEdit
+        [Authorize(Policy = "ClothierPolicy")]
         public async Task<IActionResult> ClothierEdit(int? id)
         {
             if (id == null || _context.WindowBlind == null)
@@ -237,6 +244,7 @@ namespace MaarWindowBlindProduction.Controllers
         }
 
         // GET: WindowBlinds/ManufacturerEdit
+        [Authorize(Policy = "ManufacturerPolicy")]
         public async Task<IActionResult> ManufacturerEdit(int? id)
         {
             if (id == null || _context.WindowBlind == null)
@@ -286,6 +294,7 @@ namespace MaarWindowBlindProduction.Controllers
         }
 
         // GET: WindowBlinds/PackagerEdit
+        [Authorize(Policy = "PackagerPolicy")]
         public async Task<IActionResult> PackagerEdit(int? id)
         {
             if (id == null || _context.WindowBlind == null)
@@ -335,6 +344,7 @@ namespace MaarWindowBlindProduction.Controllers
         }
 
         // GET: WindowBlinds/DelivererEdit
+        [Authorize(Policy = "DelivererPolicy")]
         public async Task<IActionResult> DelivererEdit(int? id)
         {
             if (id == null || _context.WindowBlind == null)

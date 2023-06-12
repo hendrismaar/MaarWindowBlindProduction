@@ -11,9 +11,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+    
 // Adds role policies
 
 builder.Services.AddAuthorization(options =>
@@ -22,7 +25,6 @@ builder.Services.AddAuthorization(options =>
     {
         policy.RequireRole("Admin", "Manufacturer", "Clothier","Packager", "Deliverer");
     });
-
     options.AddPolicy("ManufacturerPolicy", policy =>
     {
         policy.RequireRole("Admin", "Manufacturer");
@@ -39,9 +41,19 @@ builder.Services.AddAuthorization(options =>
     {
         policy.RequireRole("Admin", "Deliverer");
     });
+    options.AddPolicy("AdminOnlyPolicy", policy =>
+    {
+        policy.RequireRole("Admin");
+    });
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var serviceProvider = scope.ServiceProvider;
+    await SeedData.InitializeRoles(serviceProvider);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
