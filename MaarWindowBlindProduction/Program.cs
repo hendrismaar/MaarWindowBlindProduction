@@ -14,6 +14,33 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+// Adds role policies
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AllRolesPolicy", policy =>
+    {
+        policy.RequireRole("Admin", "Manufacturer", "Clothier","Packager", "Deliverer");
+    });
+
+    options.AddPolicy("ManufacturerPolicy", policy =>
+    {
+        policy.RequireRole("Admin", "Manufacturer");
+    });
+    options.AddPolicy("ClothierPolicy", policy =>
+    {
+        policy.RequireRole("Admin", "Clothier");
+    });
+    options.AddPolicy("PackagerPolicy", policy =>
+    {
+        policy.RequireRole("Admin", "Packager");
+    });
+    options.AddPolicy("DelivererPolicy", policy =>
+    {
+        policy.RequireRole("Admin", "Deliverer");
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
