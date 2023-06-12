@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MaarWindowBlindProduction.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MaarWindowBlindProduction.Data
 {
@@ -43,9 +44,10 @@ namespace MaarWindowBlindProduction.Data
             }
         }
 
-        public static async Task InitializeRoles(IServiceProvider serviceProvider)
+        public static async Task InitializeRolesAndUsers(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
             // Check if the roles already exist
             if (!await roleManager.RoleExistsAsync("Admin"))
@@ -72,6 +74,26 @@ namespace MaarWindowBlindProduction.Data
             {
                 await roleManager.CreateAsync(new IdentityRole("Deliverer"));
             }
+
+            // Create users
+            var admin = new IdentityUser { Email = "admin@blinds.com" };
+            var manufacturer = new IdentityUser { Email = "manufacturer@blinds.com" };
+            var clothier = new IdentityUser { Email = "clothier@blinds.com" };
+            var packager = new IdentityUser { Email = "packager@blinds.com" };
+            var deliverer = new IdentityUser { Email = "deliverer@blinds.com" };
+
+            await userManager.CreateAsync(admin);
+            await userManager.CreateAsync(manufacturer);
+            await userManager.CreateAsync(clothier);
+            await userManager.CreateAsync(packager);
+            await userManager.CreateAsync(deliverer);
+
+            // Assign roles to users
+            await userManager.AddToRoleAsync(admin, "Admin");
+            await userManager.AddToRoleAsync(manufacturer, "Manufacturer");
+            await userManager.AddToRoleAsync(clothier, "Clothier");
+            await userManager.AddToRoleAsync(packager, "Packager");
+            await userManager.AddToRoleAsync(deliverer, "Deliverer");
         }
     }
 }
