@@ -7,11 +7,23 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+   options.UseSqlServer(connectionString, sqlServerOptions =>
+   {
+       sqlServerOptions.EnableRetryOnFailure();
+   }));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = new PathString("/Identity/Account/Login");
+    options.LogoutPath = new PathString("/Identity/Account/Logout");
+    options.AccessDeniedPath = new PathString("/Identity/Account/AccessDenied");
+    options.Cookie.Path = "/";
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.SlidingExpiration = true;
+    options.ReturnUrlParameter = "returnUrl"; // Add this line to include returnUrl parameter
+});
 
 // Add role services
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
@@ -21,6 +33,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 // Adds role policies

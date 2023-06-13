@@ -9,6 +9,7 @@ using MaarWindowBlindProduction.Data;
 using MaarWindowBlindProduction.Models;
 using MaarWindowBlindProduction.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 
 namespace MaarWindowBlindProduction.Controllers
 {
@@ -189,7 +190,16 @@ namespace MaarWindowBlindProduction.Controllers
         public async Task<IActionResult> WorkerList()
         {
             var windowBlind = _context.WindowBlind.Where(e => e.DeliveryStatus != true);
-            return View(await windowBlind.ToListAsync());
+
+
+            // User is not authenticated, redirect to login in the same area
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Redirect("/Identity/Account/Login");
+            } else
+            {
+                return View(windowBlind);
+            }
         }
 
 
