@@ -11,6 +11,11 @@ using MaarWindowBlindProduction.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 
+//TODO: add viewmodel 2 placeorder
+// add search functionality 2 orderlist via GUID
+// css and logo to pages
+// write documentation
+
 namespace MaarWindowBlindProduction.Controllers
 {
     public class WindowBlindsController : Controller
@@ -25,11 +30,19 @@ namespace MaarWindowBlindProduction.Controllers
         // GET: WindowBlinds
         public async Task<IActionResult> Index()
         {
-              return View(await _context.WindowBlind.ToListAsync());
+            if (!User.IsInRole("Admin"))
+            {
+                RedirectToAction(nameof(OrderState));
+            }
+            return View(await _context.WindowBlind.ToListAsync());
         }
         // GET: WindowBlinds/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (!User.IsInRole("Admin"))
+            {
+                RedirectToAction(nameof(OrderState));
+            }
             if (id == null || _context.WindowBlind == null)
             {
                 return NotFound();
@@ -48,6 +61,10 @@ namespace MaarWindowBlindProduction.Controllers
         // GET: WindowBlinds/Create
         public IActionResult Create()
         {
+            if (!User.IsInRole("Admin"))
+            {
+                RedirectToAction(nameof(OrderState));
+            }
             return View();
         }
 
@@ -67,10 +84,13 @@ namespace MaarWindowBlindProduction.Controllers
             return View(windowBlind);
         }
 
-        [Authorize(Policy = "AdminOnlyPolicy")]
         // GET: WindowBlinds/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!User.IsInRole("Admin"))
+            {
+                RedirectToAction(nameof(OrderState));
+            }
             if (id == null || _context.WindowBlind == null)
             {
                 return NotFound();
@@ -122,7 +142,11 @@ namespace MaarWindowBlindProduction.Controllers
         // GET: WindowBlinds/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.WindowBlind == null)
+            if (!User.IsInRole("Admin"))
+            {
+                RedirectToAction(nameof(OrderState));
+            }
+                if (id == null || _context.WindowBlind == null)
             {
                 return NotFound();
             }
@@ -187,21 +211,33 @@ namespace MaarWindowBlindProduction.Controllers
         {
             var windowBlind = _context.WindowBlind.Where(e => e.DeliveryStatus != true);
 
-
+            var roles = new[]
+           {
+                "Admin",
+                "Manufacturer",
+                "Clothier",
+                "Packager",
+                "Deliverer"
+            };
             // User is not authenticated, redirect to login in the same area
-            if (!User.Identity.IsAuthenticated)
+            foreach (var role in roles)
             {
-                return Redirect("/Identity/Account/Login");
-            } else
-            {
-                return View(windowBlind);
+                if (User.IsInRole(role))
+                {
+                    return View(windowBlind);
+                }
             }
+            return Redirect("/Identity/Account/Login");
         }
 
 
         // GET: WindowBlinds/ClothierEdit
         public async Task<IActionResult> ClothierEdit(int? id)
         {
+            if (!User.IsInRole("Admin") || !User.IsInRole("Clothier"))
+            {
+                return RedirectToAction(nameof(WorkerList));
+            }
             if (id == null || _context.WindowBlind == null)
             {
                 return NotFound();
@@ -261,7 +297,11 @@ namespace MaarWindowBlindProduction.Controllers
             {
                 return NotFound();
             }
-            return View(windowBlind);
+            if (!User.IsInRole("Admin") || !User.IsInRole("Manufacturer"))
+            {
+                return RedirectToAction(nameof(WorkerList));
+            } 
+                return View(windowBlind);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -300,6 +340,10 @@ namespace MaarWindowBlindProduction.Controllers
         // GET: WindowBlinds/PackagerEdit
         public async Task<IActionResult> PackagerEdit(int? id)
         {
+            if (!User.IsInRole("Admin") || !User.IsInRole("Packager"))
+            {
+                return RedirectToAction(nameof(WorkerList));
+            }
             if (id == null || _context.WindowBlind == null)
             {
                 return NotFound();
@@ -349,6 +393,10 @@ namespace MaarWindowBlindProduction.Controllers
         // GET: WindowBlinds/DelivererEdit
         public async Task<IActionResult> DelivererEdit(int? id)
         {
+            if (!User.IsInRole("Admin") || !User.IsInRole("Deliverer"))
+            {
+                return RedirectToAction(nameof(WorkerList));
+            }
             if (id == null || _context.WindowBlind == null)
             {
                 return NotFound();
