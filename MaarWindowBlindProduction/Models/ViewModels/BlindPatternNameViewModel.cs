@@ -2,7 +2,7 @@
 {
     public class BlindPatternNameViewModel
     {
-        public ICollection<WindowBlind> WindowBlinds { get; set; }
-        public ICollection<PatternName> PatternNames { get; set; }
+        public List<Order> Orders { get; set; }
+        public List<PatternName> PatternNames { get; set; }
     }
 }

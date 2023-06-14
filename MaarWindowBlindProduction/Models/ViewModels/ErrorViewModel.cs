@@ -1,4 +1,4 @@
-namespace MaarWindowBlindProduction.Models
+namespace MaarWindowBlindProduction.Models.ViewModels
 {
     public class ErrorViewModel
     {

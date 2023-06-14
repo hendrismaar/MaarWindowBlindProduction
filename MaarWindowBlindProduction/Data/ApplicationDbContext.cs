@@ -11,8 +11,8 @@ namespace MaarWindowBlindProduction.Data
             : base(options)
         {
         }
-        public DbSet<PatternName> Pattern { get; set; }
-        public DbSet<WindowBlind> WindowBlind { get; set; }
+        public DbSet<Pattern> Pattern { get; set; }
+        public DbSet<Order> WindowBlind { get; set; }
 
     }
 }

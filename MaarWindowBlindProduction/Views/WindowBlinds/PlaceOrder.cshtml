@@ -1,4 +1,4 @@
-﻿@model MaarWindowBlindProduction.Models.WindowBlind
+﻿@model MaarWindowBlindProduction.Models.ViewModels.BlindPatternNameViewModel
 
 @{
     ViewData["Title"] = "PlaceOrder";
@@ -31,9 +31,9 @@
                 <label asp-for="PatternNumber" class="control-label"></label>
                 <select name="PatternNumber" class="form-control">
                     @{
-                        for (int i = 0; i < 24; i++)
+                        foreach (var pattern in Pattern.Name)
                         {
-                                            <option value=@i>@i</option>
+                            
                         }
                     }
                 </select>

@@ -3,6 +3,6 @@
     public class PatternName
     {
         public int Id { get; set; }
-        public string Pattern { get; set; }
+        public string Name { get; set; }
     }
 }

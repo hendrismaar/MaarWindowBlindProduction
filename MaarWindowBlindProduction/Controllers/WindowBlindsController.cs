@@ -11,7 +11,7 @@ using MaarWindowBlindProduction.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 
-//TODO: add viewmodel 2 placeorder
+//TODO: add viewmodel 2 placeorder (ask teacher)
 // add search functionality 2 orderlist via GUID
 // css and logo to pages
 // write documentation
@@ -21,6 +21,34 @@ namespace MaarWindowBlindProduction.Controllers
     public class WindowBlindsController : Controller
     {
         private readonly ApplicationDbContext _context;
+
+        private List<Pattern> patterns = new List<Pattern>()
+        {
+            new Pattern { Name = "Polka dots" },
+                    new Pattern { Name = "Moroccan" },
+                    new Pattern { Name = "Quatrefoil" },
+                    new Pattern { Name = "Chevron" },
+                    new Pattern { Name = "Honeycomb" },
+                    new Pattern { Name = "Houndstooth" },
+                    new Pattern { Name = "Ikat" },
+                    new Pattern { Name = "Fret / Greek key" },
+                    new Pattern { Name = "Damask" },
+                    new Pattern { Name = "Herringbone" },
+                    new Pattern { Name = "Argyle" },
+                    new Pattern { Name = "Ogee" },
+                    new Pattern { Name = "Paisley / Botha" },
+                    new Pattern { Name = "Gingham / Vichy" },
+                    new Pattern { Name = "Floral" },
+                    new Pattern { Name = "Scallops / Scale" },
+                    new Pattern { Name = "Lattice" },
+                    new Pattern { Name = "Stripes" },
+                    new Pattern { Name = "Fleur de lis" },
+                    new Pattern { Name = "Basketweave" },
+                    new Pattern { Name = "Cube" },
+                    new Pattern { Name = "Harlequin" },
+                    new Pattern { Name = "Plaid" },
+                    new Pattern { Name = "Grunge" }
+    };
 
         public WindowBlindsController(ApplicationDbContext context)
         {
@@ -73,7 +101,7 @@ namespace MaarWindowBlindProduction.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlind windowBlind)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] Order windowBlind)
         {
             if (ModelState.IsValid)
             {
@@ -109,7 +137,7 @@ namespace MaarWindowBlindProduction.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlind windowBlind)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] Order windowBlind)
         {
             if (id != windowBlind.Id)
             {
@@ -183,13 +211,16 @@ namespace MaarWindowBlindProduction.Controllers
 
         public async Task<IActionResult> PlaceOrder()
         {
-            var model = new WindowBlind();
+            BlindPatternNameViewModel vm = new BlindPatternNameViewModel();
+
+            vm.Orders = new Order();
+            vm.PatternNames = patterns;
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PlaceOrder([Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] WindowBlind windowBlind)
+        public async Task<IActionResult> PlaceOrder([Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] Order windowBlind)
         {
             if (ModelState.IsValid)
             {
