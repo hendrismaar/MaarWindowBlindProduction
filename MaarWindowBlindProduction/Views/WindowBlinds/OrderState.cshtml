@@ -10,16 +10,16 @@
     <a asp-action="PlaceOrder">Place an order here</a>
 </p>
 
-<form method="get" action="@Url.Action("OrderState", "WindowBlindsController")">
-    <input type="text" name="id" placeholder="Enter GUID" />
-    <input type="submit" value="Search" />
+<form method="get" action="OrderState">
+    <input type="text" name="search" placeholder="Enter Order ID" />
+    <input type="submit" value="Filter" />
 </form>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Guid)
+                @Html.DisplayNameFor(model => model.OrderId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
@@ -56,10 +56,10 @@
 
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Guid)
+                        @Html.DisplayFor(modelItem => item.OrderId)
                     </td>
                     <td>
-                        @Html.DisplayNameFor(modelItem => item.FirstName)
+                        @Html.DisplayFor(modelItem => item.FirstName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.LastName)

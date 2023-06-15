@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 
 //TODO: add viewmodel 2 placeorder (ask teacher)
-// add search functionality 2 orderlist via GUID
 // css and logo to pages
 // write documentation
 
@@ -209,7 +208,7 @@ namespace MaarWindowBlindProduction.Controllers
         }
 
 
-        public async Task<IActionResult> PlaceOrder(Guid id)
+        public async Task<IActionResult> PlaceOrder()
         {
             var model = new Order();
             return View(model);
@@ -229,17 +228,16 @@ namespace MaarWindowBlindProduction.Controllers
         }
 
         // GET: WindowBlinds/OrderState
-        public async Task<IActionResult> OrderState(Guid id = default)
+        public async Task<IActionResult> OrderState(string search)
         {
-            if (id != default)
-            {
-                var results = _context.WindowBlind.Where(e => e.Guid == id).ToList();
-                Console.WriteLine("Search Results Count: " + results.Count);
-                return View(results);
-            }
+            var windowBlinds = from order in _context.WindowBlind
+                               select order;
 
-            var allResults = _context.WindowBlind.ToList();
-            return View(allResults);
+            if (!String.IsNullOrEmpty(search))
+            {
+                windowBlinds = windowBlinds.Where(s => s.OrderId!.Contains(search));
+            }
+            return View(await windowBlinds.ToListAsync());
         }
 
         public async Task<IActionResult> WorkerList()

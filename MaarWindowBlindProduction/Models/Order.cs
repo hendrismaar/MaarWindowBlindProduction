@@ -6,7 +6,7 @@ namespace MaarWindowBlindProduction.Models
     {
         //1, Jüri, Ratas, päris aadress, 11, true, true, true, false
         public int Id { get; set; }
-        public Guid Guid { get; set; }
+        public string OrderId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }
@@ -21,7 +21,7 @@ namespace MaarWindowBlindProduction.Models
         public bool DeliveryStatus { get; set; }
         public Order()
         {
-            Guid = Guid.NewGuid();
+            OrderId = DateTime.Now.ToString().Replace(" ", "").Replace(":", "").Replace(".", "");
         }
     }
 }
