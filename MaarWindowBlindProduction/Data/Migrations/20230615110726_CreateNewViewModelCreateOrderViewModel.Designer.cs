@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaarWindowBlindProduction.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230614213306_AddGuidToOrderModel")]
-    partial class AddGuidToOrderModel
+    [Migration("20230615110726_CreateNewViewModelCreateOrderViewModel")]
+    partial class CreateNewViewModelCreateOrderViewModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,14 +49,15 @@ namespace MaarWindowBlindProduction.Data.Migrations
                     b.Property<bool>("FrameReady")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PatternNumber")
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PatternId")
                         .HasColumnType("int");
 
                     b.Property<bool>("ProductPackaged")
@@ -64,10 +65,12 @@ namespace MaarWindowBlindProduction.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PatternId");
+
                     b.ToTable("WindowBlind");
                 });
 
-            modelBuilder.Entity("MaarWindowBlindProduction.Models.Patterns", b =>
+            modelBuilder.Entity("MaarWindowBlindProduction.Models.Pattern", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -284,6 +287,17 @@ namespace MaarWindowBlindProduction.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("MaarWindowBlindProduction.Models.Order", b =>
+                {
+                    b.HasOne("MaarWindowBlindProduction.Models.Pattern", "Pattern")
+                        .WithMany()
+                        .HasForeignKey("PatternId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pattern");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

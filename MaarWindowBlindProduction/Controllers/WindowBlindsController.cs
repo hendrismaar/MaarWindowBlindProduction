@@ -100,7 +100,7 @@ namespace MaarWindowBlindProduction.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] Order windowBlind)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Address,Pattern,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] Order windowBlind)
         {
             if (ModelState.IsValid)
             {
@@ -136,7 +136,7 @@ namespace MaarWindowBlindProduction.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] Order windowBlind)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Address,Pattern,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] Order windowBlind)
         {
             if (id != windowBlind.Id)
             {
@@ -210,17 +210,34 @@ namespace MaarWindowBlindProduction.Controllers
 
         public async Task<IActionResult> PlaceOrder()
         {
-            var model = new Order();
+            var model = new CreateOrderViewModel();
+            model.Order = new Order();
+            model.Patterns = CreatePatternSelectList();
             return View(model);
+        }
+
+        private List<SelectListItem> CreatePatternSelectList(int? selected = null)
+        {
+            var selectList = new SelectList(_context.Set<Pattern>(), "Id", "Name", selected).ToList();
+            selectList.Insert(0, new SelectListItem("Choose a pattern", "-1"));
+            return selectList;
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PlaceOrder([Bind("Id,FirstName,LastName,Address,PatternNumber,ClothReady,FrameReady,ProductPackaged,DeliveryStatus")] Order windowBlind)
+        public async Task<IActionResult> PlaceOrder(CreateOrderViewModel windowBlind)
         {
+            var chosenPattern = _context.Patterns.Find(windowBlind.PatternId);
+            if (chosenPattern != null)
+            {
+                ModelState.ClearValidationState("Order.Pattern");
+                ModelState.MarkFieldValid("Order.Pattern");
+                windowBlind.Order.Pattern = chosenPattern;
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Add(windowBlind);
+                _context.Add(windowBlind.Order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(OrderState));
             }
@@ -230,8 +247,10 @@ namespace MaarWindowBlindProduction.Controllers
         // GET: WindowBlinds/OrderState
         public async Task<IActionResult> OrderState(string search)
         {
-            var windowBlinds = from order in _context.WindowBlind
-                               select order;
+            var windowBlinds = _context.WindowBlind.Include(e => e.Pattern).AsQueryable();
+            //return View(await applicationDbContext.ToListAsync());
+            //var windowBlinds = from order in _context.WindowBlind
+            //                   select order;
 
             if (!String.IsNullOrEmpty(search))
             {

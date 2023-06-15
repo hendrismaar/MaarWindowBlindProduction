@@ -68,7 +68,7 @@ namespace MaarWindowBlindProduction.Data.Migrations
                     b.ToTable("WindowBlind");
                 });
 
-            modelBuilder.Entity("MaarWindowBlindProduction.Models.Pattern", b =>
+            modelBuilder.Entity("MaarWindowBlindProduction.Models.Patterns", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -82,7 +82,7 @@ namespace MaarWindowBlindProduction.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pattern");
+                    b.ToTable("Patterns");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

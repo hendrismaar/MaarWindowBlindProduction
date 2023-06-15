@@ -55,13 +55,15 @@ namespace MaarWindowBlindProduction.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PatternNumber")
+                    b.Property<int>("PatternId")
                         .HasColumnType("int");
 
                     b.Property<bool>("ProductPackaged")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PatternId");
 
                     b.ToTable("WindowBlind");
                 });
@@ -80,7 +82,7 @@ namespace MaarWindowBlindProduction.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pattern");
+                    b.ToTable("Patterns");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -283,6 +285,17 @@ namespace MaarWindowBlindProduction.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("MaarWindowBlindProduction.Models.Order", b =>
+                {
+                    b.HasOne("MaarWindowBlindProduction.Models.Pattern", "Pattern")
+                        .WithMany()
+                        .HasForeignKey("PatternId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pattern");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

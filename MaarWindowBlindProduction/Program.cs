@@ -27,6 +27,7 @@ using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;
     await SeedData.InitializeRolesAndUsers(serviceProvider);
+    await SeedData.InitializePatterns(serviceProvider);
 }
 
 // Configure the HTTP request pipeline.

@@ -11,10 +11,47 @@ namespace MaarWindowBlindProduction.Data
         {
             using (var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
-                if (context.Pattern.Any())
+                if (context.Patterns.Any())
                 {
                     return;
                 }
+            }
+        }
+
+        public static async Task InitializePatterns(IServiceProvider serviceProvider)
+        {
+            using (var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
+            {
+                if (context.Patterns.Any())
+                {
+                    return;
+                }
+                context.Patterns.AddRange(
+                    new Pattern { Name = "Polka dots" },
+                    new Pattern { Name = "Moroccan" },
+                    new Pattern { Name = "Quatrefoil" },
+                    new Pattern { Name = "Chevron" },
+                    new Pattern { Name = "Honeycomb" },
+                    new Pattern { Name = "Houndstooth" },
+                    new Pattern { Name = "Ikat" },
+                    new Pattern { Name = "Fret / Greek key" },
+                    new Pattern { Name = "Damask" },
+                    new Pattern { Name = "Herringbone" },
+                    new Pattern { Name = "Argyle" },
+                    new Pattern { Name = "Ogee" },
+                    new Pattern { Name = "Paisley / Botha" },
+                    new Pattern { Name = "Gingham / Vichy" },
+                    new Pattern { Name = "Floral" },
+                    new Pattern { Name = "Scallops / Scale" },
+                    new Pattern { Name = "Lattice" },
+                    new Pattern { Name = "Stripes" },
+                    new Pattern { Name = "Fleur de lis" },
+                    new Pattern { Name = "Basketweave" },
+                    new Pattern { Name = "Cube" },
+                    new Pattern { Name = "Harlequin" },
+                    new Pattern { Name = "Plaid" },
+                    new Pattern { Name = "Grunge" });
+                context.SaveChanges();
             }
         }
 

@@ -9,11 +9,6 @@ namespace MaarWindowBlindProduction.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "Pattern",
-                table: "Pattern",
-                newName: "Name");
-
             migrationBuilder.AddColumn<Guid>(
                 name: "Guid",
                 table: "WindowBlind",
@@ -28,10 +23,6 @@ namespace MaarWindowBlindProduction.Data.Migrations
                 name: "Guid",
                 table: "WindowBlind");
 
-            migrationBuilder.RenameColumn(
-                name: "Name",
-                table: "Pattern",
-                newName: "Pattern");
         }
     }
 }

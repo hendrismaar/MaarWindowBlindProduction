@@ -14,11 +14,11 @@ namespace MaarWindowBlindProduction.Data.Migrations
 
             migrationBuilder.RenameTable(
                 name: "Patterns",
-                newName: "Pattern");
+                newName: "Patterns");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Pattern",
-                table: "Pattern",
+                table: "Patterns",
                 column: "Id");
         }
 
@@ -26,10 +26,10 @@ namespace MaarWindowBlindProduction.Data.Migrations
         {
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Pattern",
-                table: "Pattern");
+                table: "Patterns");
 
             migrationBuilder.RenameTable(
-                name: "Pattern",
+                name: "Patterns",
                 newName: "Patterns");
 
             migrationBuilder.AddPrimaryKey(
