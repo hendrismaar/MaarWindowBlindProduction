@@ -15,32 +15,6 @@ namespace MaarWindowBlindProduction.Data
                 {
                     return;
                 }
-                context.Pattern.AddRange(
-                    new PatternName { Name = "Polka dots" },
-                    new PatternName { Name = "Moroccan" },
-                    new PatternName { Name = "Quatrefoil" },
-                    new PatternName { Name = "Chevron" },
-                    new PatternName { Name = "Honeycomb" },
-                    new PatternName { Name = "Houndstooth" },
-                    new PatternName { Name = "Ikat" },
-                    new PatternName { Name = "Fret / Greek key" },
-                    new PatternName { Name = "Damask" },
-                    new PatternName { Name = "Herringbone" },
-                    new PatternName { Name = "Argyle" },
-                    new PatternName { Name = "Ogee" },
-                    new PatternName { Name = "Paisley / Botha" },
-                    new PatternName { Name = "Gingham / Vichy" },
-                    new PatternName { Name = "Floral" },
-                    new PatternName { Name = "Scallops / Scale" },
-                    new PatternName { Name = "Lattice" },
-                    new PatternName { Name = "Stripes" },
-                    new PatternName { Name = "Fleur de lis" },
-                    new PatternName { Name = "Basketweave" },
-                    new PatternName { Name = "Cube" },
-                    new PatternName { Name = "Harlequin" },
-                    new PatternName { Name = "Plaid" },
-                    new PatternName { Name = "Grunge" });
-                context.SaveChanges();
             }
         }
 

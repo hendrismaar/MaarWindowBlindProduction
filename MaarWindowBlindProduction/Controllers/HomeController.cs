@@ -1,4 +1,4 @@
-﻿using MaarWindowBlindProduction.Models;
+﻿using MaarWindowBlindProduction.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

@@ -2,7 +2,7 @@
 {
     public class BlindPatternNameViewModel
     {
-        public List<Order> Orders { get; set; }
-        public List<PatternName> PatternNames { get; set; }
+        public ICollection<Order> Orders { get; set; }
+        public ICollection<Pattern> PatternNames { get; set; }
     }
 }

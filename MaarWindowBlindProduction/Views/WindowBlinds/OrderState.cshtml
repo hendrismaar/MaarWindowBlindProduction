@@ -9,14 +9,26 @@
 <p>
     <a asp-action="PlaceOrder">Place an order here</a>
 </p>
+
+<form method="get" action="@Url.Action("OrderState", "WindowBlindsController")">
+    <input type="text" name="id" placeholder="Enter GUID" />
+    <input type="submit" value="Search" />
+</form>
+
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Guid)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PatternNumber)
@@ -37,30 +49,41 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PatternNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClothReady)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FrameReady)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductPackaged)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeliveryStatus)
-            </td>
-        </tr>
-}
+        @if (Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Guid)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PatternNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClothReady)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FrameReady)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductPackaged)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeliveryStatus)
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>

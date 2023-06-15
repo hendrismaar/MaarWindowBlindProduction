@@ -209,12 +209,9 @@ namespace MaarWindowBlindProduction.Controllers
         }
 
 
-        public async Task<IActionResult> PlaceOrder()
+        public async Task<IActionResult> PlaceOrder(Guid id)
         {
-            BlindPatternNameViewModel vm = new BlindPatternNameViewModel();
-
-            vm.Orders = new Order();
-            vm.PatternNames = patterns;
+            var model = new Order();
             return View(model);
         }
 
@@ -232,10 +229,17 @@ namespace MaarWindowBlindProduction.Controllers
         }
 
         // GET: WindowBlinds/OrderState
-        public async Task<IActionResult> OrderState()
+        public async Task<IActionResult> OrderState(Guid id = default)
         {
-            var windowBlind = _context.WindowBlind.ToList();
-            return View(windowBlind);
+            if (id != default)
+            {
+                var results = _context.WindowBlind.Where(e => e.Guid == id).ToList();
+                Console.WriteLine("Search Results Count: " + results.Count);
+                return View(results);
+            }
+
+            var allResults = _context.WindowBlind.ToList();
+            return View(allResults);
         }
 
         public async Task<IActionResult> WorkerList()
