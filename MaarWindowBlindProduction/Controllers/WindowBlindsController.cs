@@ -20,35 +20,6 @@ namespace MaarWindowBlindProduction.Controllers
     public class WindowBlindsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        private List<Pattern> patterns = new List<Pattern>()
-        {
-            new Pattern { Name = "Polka dots" },
-                    new Pattern { Name = "Moroccan" },
-                    new Pattern { Name = "Quatrefoil" },
-                    new Pattern { Name = "Chevron" },
-                    new Pattern { Name = "Honeycomb" },
-                    new Pattern { Name = "Houndstooth" },
-                    new Pattern { Name = "Ikat" },
-                    new Pattern { Name = "Fret / Greek key" },
-                    new Pattern { Name = "Damask" },
-                    new Pattern { Name = "Herringbone" },
-                    new Pattern { Name = "Argyle" },
-                    new Pattern { Name = "Ogee" },
-                    new Pattern { Name = "Paisley / Botha" },
-                    new Pattern { Name = "Gingham / Vichy" },
-                    new Pattern { Name = "Floral" },
-                    new Pattern { Name = "Scallops / Scale" },
-                    new Pattern { Name = "Lattice" },
-                    new Pattern { Name = "Stripes" },
-                    new Pattern { Name = "Fleur de lis" },
-                    new Pattern { Name = "Basketweave" },
-                    new Pattern { Name = "Cube" },
-                    new Pattern { Name = "Harlequin" },
-                    new Pattern { Name = "Plaid" },
-                    new Pattern { Name = "Grunge" }
-    };
-
         public WindowBlindsController(ApplicationDbContext context)
         {
             _context = context;
@@ -59,7 +30,7 @@ namespace MaarWindowBlindProduction.Controllers
         {
             if (!User.IsInRole("Admin"))
             {
-                RedirectToAction(nameof(OrderState));
+                return RedirectToAction(nameof(OrderState));
             }
             return View(await _context.WindowBlind.ToListAsync());
         }
@@ -68,7 +39,7 @@ namespace MaarWindowBlindProduction.Controllers
         {
             if (!User.IsInRole("Admin"))
             {
-                RedirectToAction(nameof(OrderState));
+                return RedirectToAction(nameof(OrderState));
             }
             if (id == null || _context.WindowBlind == null)
             {
@@ -90,7 +61,7 @@ namespace MaarWindowBlindProduction.Controllers
         {
             if (!User.IsInRole("Admin"))
             {
-                RedirectToAction(nameof(OrderState));
+                return RedirectToAction(nameof(OrderState));
             }
             return View();
         }
@@ -116,7 +87,7 @@ namespace MaarWindowBlindProduction.Controllers
         {
             if (!User.IsInRole("Admin"))
             {
-                RedirectToAction(nameof(OrderState));
+                return RedirectToAction(nameof(OrderState));
             }
             if (id == null || _context.WindowBlind == null)
             {
@@ -171,7 +142,7 @@ namespace MaarWindowBlindProduction.Controllers
         {
             if (!User.IsInRole("Admin"))
             {
-                RedirectToAction(nameof(OrderState));
+                return RedirectToAction(nameof(OrderState));
             }
                 if (id == null || _context.WindowBlind == null)
             {
@@ -219,7 +190,6 @@ namespace MaarWindowBlindProduction.Controllers
         private List<SelectListItem> CreatePatternSelectList(int? selected = null)
         {
             var selectList = new SelectList(_context.Set<Pattern>(), "Id", "Name", selected).ToList();
-            selectList.Insert(0, new SelectListItem("Choose a pattern", "-1"));
             return selectList;
         }
 
@@ -286,7 +256,7 @@ namespace MaarWindowBlindProduction.Controllers
         // GET: WindowBlinds/ClothierEdit
         public async Task<IActionResult> ClothierEdit(int? id)
         {
-            if (!User.IsInRole("Admin") || !User.IsInRole("Clothier"))
+            if (!User.IsInRole("Admin") && !User.IsInRole("Clothier"))
             {
                 return RedirectToAction(nameof(WorkerList));
             }
@@ -349,7 +319,7 @@ namespace MaarWindowBlindProduction.Controllers
             {
                 return NotFound();
             }
-            if (!User.IsInRole("Admin") || !User.IsInRole("Manufacturer"))
+            if (!User.IsInRole("Admin") && !User.IsInRole("Manufacturer"))
             {
                 return RedirectToAction(nameof(WorkerList));
             } 
@@ -392,7 +362,7 @@ namespace MaarWindowBlindProduction.Controllers
         // GET: WindowBlinds/PackagerEdit
         public async Task<IActionResult> PackagerEdit(int? id)
         {
-            if (!User.IsInRole("Admin") || !User.IsInRole("Packager"))
+            if (!User.IsInRole("Admin") && !User.IsInRole("Packager"))
             {
                 return RedirectToAction(nameof(WorkerList));
             }
@@ -445,7 +415,7 @@ namespace MaarWindowBlindProduction.Controllers
         // GET: WindowBlinds/DelivererEdit
         public async Task<IActionResult> DelivererEdit(int? id)
         {
-            if (!User.IsInRole("Admin") || !User.IsInRole("Deliverer"))
+            if (!User.IsInRole("Admin") && !User.IsInRole("Deliverer"))
             {
                 return RedirectToAction(nameof(WorkerList));
             }
