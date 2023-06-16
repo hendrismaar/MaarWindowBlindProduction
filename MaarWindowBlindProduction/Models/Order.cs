@@ -16,7 +16,7 @@ namespace MaarWindowBlindProduction.Models
         public string Address { get; set; }
         public Pattern Pattern { get; set; }
         [UIHint("_ManufacturingBools")]
-        [Display(Name = "Cloth status")]
+        [Display(Name = "Blind status")]
         public bool ClothReady { get; set; }
         [UIHint("_ManufacturingBools")]
         [Display(Name = "Frame status")]
