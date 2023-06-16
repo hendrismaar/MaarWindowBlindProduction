@@ -218,9 +218,6 @@ namespace MaarWindowBlindProduction.Controllers
         public async Task<IActionResult> OrderState(string search)
         {
             var windowBlinds = _context.WindowBlind.Include(e => e.Pattern).AsQueryable();
-            //return View(await applicationDbContext.ToListAsync());
-            //var windowBlinds = from order in _context.WindowBlind
-            //                   select order;
 
             if (!String.IsNullOrEmpty(search))
             {
@@ -231,7 +228,7 @@ namespace MaarWindowBlindProduction.Controllers
 
         public async Task<IActionResult> WorkerList()
         {
-            var windowBlind = _context.WindowBlind.Where(e => e.DeliveryStatus != true);
+            var windowBlind = _context.WindowBlind.Where(e => e.DeliveryStatus != true).Include(e => e.Pattern);
 
             var roles = new[]
            {
@@ -463,6 +460,46 @@ namespace MaarWindowBlindProduction.Controllers
                 return RedirectToAction(nameof(WorkerList));
             }
             return View(windowBlind);
+        }
+
+        // GET: WindowBlinds/Delete/5
+        public async Task<IActionResult> DeleteOrder(int? id)
+        {
+            if (!User.IsInRole("Admin"))
+            {
+                return RedirectToAction(nameof(OrderState));
+            }
+            if (id == null || _context.WindowBlind == null)
+            {
+                return NotFound();
+            }
+
+            var windowBlind = await _context.WindowBlind
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (windowBlind == null)
+            {
+                return NotFound();
+            }
+
+            return View(windowBlind);
+        }
+
+        [HttpPost, ActionName("DeleteOrder")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteOrderConfirmed(int id)
+        {
+            if (_context.WindowBlind == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.WindowBlind'  is null.");
+            }
+            var windowBlind = await _context.WindowBlind.FindAsync(id);
+            if (windowBlind != null)
+            {
+                _context.WindowBlind.Remove(windowBlind);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(WorkerList));
         }
 
         private bool WindowBlindExists(int id)
